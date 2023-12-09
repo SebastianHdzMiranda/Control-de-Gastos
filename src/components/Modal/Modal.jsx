@@ -33,7 +33,12 @@ function Modal({setModal, animarModal, setAnimarModal, guardarGasto}) {
             return;
         } 
 
-        guardarGasto({nombre, cantidad, categoria, id:uuidv4()});
+        guardarGasto({nombre, cantidad, categoria, id:uuidv4(), date: Date.now()});
+
+        setAnimarModal(false);
+        setTimeout(() => {
+            setModal(false);
+        }, 400);
     }
 
     return (
