@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Mensaje from '../Mensaje/Mensaje';
 import CerrarBtn from '../../img/cerrar.svg';
+import { v4 as uuidv4 } from 'uuid';
 
-function Modal({setModal, animarModal, setAnimarModal}) {
+function Modal({setModal, animarModal, setAnimarModal, guardarGasto}) {
 
     const [nombre, setNombre] = useState('');
     const [cantidad, setCantidad] = useState('');
@@ -32,7 +33,7 @@ function Modal({setModal, animarModal, setAnimarModal}) {
             return;
         } 
 
-        console.log('Validando Formulario...');
+        guardarGasto({nombre, cantidad, categoria, id:uuidv4()});
     }
 
     return (
