@@ -1,17 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./components/Header/Header";
 import IconoNuevoGasto from "./img/nuevo-gasto.svg";
 import Modal from "./components/Modal/Modal";
 import ListadoGastos from "./components/ListadoGastos/ListadoGastos";
 
 function App() {
-  const [presupuesto, setPresupuesto] = useState(0);
-  const [isValidPresupuesto, setIsValidPresupuesto] = useState(false);
+  const [presupuesto, setPresupuesto] = useState( ()=> JSON.parse( localStorage.getItem('presupuesto')) || 0);
+  const [isValidPresupuesto, setIsValidPresupuesto] = useState(()=> JSON.parse( localStorage.getItem('presupuestoValido')) || false);
 
   const [modal, setModal] = useState(false);
   const [animarModal, setAnimarModal] = useState(false);
 
-  const [gastos, setGastos] = useState([]);
+  const [gastos, setGastos] = useState(()=> JSON.parse( localStorage.getItem('gastos')) || []);
+
+  useEffect( ()=> {
+    console.log('Guardando presupuesto');
+    localStorage.setItem('presupuesto', JSON.stringify(presupuesto));
+  }, [presupuesto]);
+
+  useEffect( ()=> {
+    localStorage.setItem('presupuestoValido', JSON.stringify(isValidPresupuesto));
+  }, [isValidPresupuesto]);
+
+  useEffect( ()=> {
+    localStorage.setItem('gastos', JSON.stringify(gastos));
+  }, [gastos]);
 
   const handleNuevoGasto = () => {
     setModal(true);
