@@ -22,6 +22,7 @@ html {
     box-sizing: inherit;
 }
 
+/* le da un ancho a la pantalla y esconde lo que se salga de esa altura */
 .fijar {
     overflow: hidden;
     height: 100vh;
@@ -277,16 +278,20 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 2rem;
     margin-bottom: 2rem;
     width: 100%;
+
+    display: grid;
+    grid-template-columns: 2fr .7fr;
 }
 
 .cantidad-gasto {
     font-size: 2.4rem;
     color: var(--negro);
     font-weight: 900;
+    text-align: right;
 }
+
 
 .contenido-gasto {
     display: flex;
@@ -295,7 +300,12 @@ main {
 }
 
 .contenido-gasto img {
-    width: 10rem;
+    width: 6rem;
+}
+@media (min-width: 768px) {
+    .contenido-gasto img {
+        width: 10rem;
+    }
 }
 
 .descripcion-gasto p {

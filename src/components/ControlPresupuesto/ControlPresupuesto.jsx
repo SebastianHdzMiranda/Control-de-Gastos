@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ControlPresupuesto({presupuesto}) {
+function ControlPresupuesto({presupuesto, gastos}) {
 
     const formatearPresupuesto = cantidad => {
         // API de react que te formatea numeros
