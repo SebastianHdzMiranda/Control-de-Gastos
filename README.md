@@ -59,3 +59,12 @@
                 </SwipeAction>
             </TrailingActions>
         );
+
+    - añadir  destructive={true} a 'SwipeAction', esto crea una transicion para eliminar un elemento:
+
+        <SwipeAction 
+            destructive={true}
+            onClick={()=> eliminarGasto(id)}
+        >
+            Eliminar
+        </SwipeAction>

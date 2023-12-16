@@ -5,6 +5,9 @@ import Modal from "./components/Modal/Modal";
 import ListadoGastos from "./components/ListadoGastos/ListadoGastos";
 
 function App() {
+
+  /* STATES
+  ------------------------------------------------------- */
   const [presupuesto, setPresupuesto] = useState( ()=> JSON.parse( localStorage.getItem('presupuesto')) || 0);
   const [isValidPresupuesto, setIsValidPresupuesto] = useState(()=> JSON.parse( localStorage.getItem('presupuestoValido')) || false);
 
@@ -13,9 +16,11 @@ function App() {
 
   const [gastos, setGastos] = useState(()=> JSON.parse( localStorage.getItem('gastos')) || []);
 
-  // LOCALSTORAGE
+  const [gastoEditar, setGastoEditar]  = useState({});
+
+  /* LOCALSTORAGE 
+  ------------------------------------------------------- */ 
   useEffect( ()=> {
-    console.log('Guardando presupuesto');
     localStorage.setItem('presupuesto', JSON.stringify(presupuesto));
   }, [presupuesto]);
 
@@ -27,6 +32,20 @@ function App() {
     localStorage.setItem('gastos', JSON.stringify(gastos));
   }, [gastos]);
 
+  // UseEfectt que me habre el modal cuando gastoEditar cambie
+  useEffect(()=> {
+    if (Object.keys(gastoEditar).length > 0) {
+      setModal(true);
+    
+      setTimeout(() => {
+        setAnimarModal(true);
+      }, 200);
+    }
+
+  }, [gastoEditar]);
+  
+  /* FUNCIONES
+  ------------------------------------------------------ */
   const handleNuevoGasto = () => {
     setModal(true);
 
@@ -35,12 +54,24 @@ function App() {
     }, 200);
   };
 
-  const guardarGasto = (gasto) => {
+  const guardarGasto = gasto => {
     setGastos([...gastos, gasto]);
   };
 
+  const actualizarGastos = objGasto => {
+    const gastosAct = gastos.map( gasto => gasto.id === objGasto.id ? objGasto : gasto );
+
+    setGastos(gastosAct);
+  }
+
+  const eliminarGasto = id => {
+    const gastosAct = gastos.filter( gasto => gasto.id !== id );
+
+    setGastos(gastosAct);
+  }
+
   return (
-    <div className={modal ? 'fijar' : ''}>
+    <div className={modal ? "fijar" : ""}>
       <Header
         presupuesto={presupuesto}
         setPresupuesto={setPresupuesto}
@@ -51,7 +82,11 @@ function App() {
       {isValidPresupuesto && (
         <>
           <main>
-            <ListadoGastos gastos={gastos}/>
+            <ListadoGastos
+              gastos={gastos}
+              setGastoEditar={setGastoEditar}
+              eliminarGasto={eliminarGasto}
+            />
           </main>
 
           <div className="nuevo-gasto">
@@ -70,6 +105,9 @@ function App() {
           animarModal={animarModal}
           setAnimarModal={setAnimarModal}
           guardarGasto={guardarGasto}
+          gastoEditar={gastoEditar}
+          actualizarGastos={actualizarGastos}
+          setGastoEditar={setGastoEditar}
         />
       )}
     </div>

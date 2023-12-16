@@ -19,7 +19,7 @@ import ocio from "../../img/icono_ocio.svg";
 import salud from "../../img/icono_salud.svg";
 import suscripciones from "../../img/icono_suscripciones.svg";
 
-function Gasto({gasto}) {
+function Gasto({gasto, setGastoEditar, eliminarGasto}) {
 
     const {nombre, cantidad, categoria, id, date} = gasto;
 
@@ -28,7 +28,7 @@ function Gasto({gasto}) {
     // El parentesis indica un return, es decir que me returne un componente
     const leadingActions = () => (
         <LeadingActions>
-            <SwipeAction onClick={()=> console.log('Editar')}>
+            <SwipeAction onClick={()=> setGastoEditar(gasto)}>
                 Editar
             </SwipeAction>
         </LeadingActions>
@@ -36,11 +36,15 @@ function Gasto({gasto}) {
     
     const trailingActions = () => (
         <TrailingActions>
-            <SwipeAction onClick={()=> console.log('Eliminar')}>
+            <SwipeAction 
+                destructive={true}
+                onClick={()=> eliminarGasto(id)}
+            >
                 Eliminar
             </SwipeAction>
         </TrailingActions>
     )
+
 
     return (
         <SwipeableList>
