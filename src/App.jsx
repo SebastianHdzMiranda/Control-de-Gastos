@@ -13,6 +13,7 @@ function App() {
 
   const [gastos, setGastos] = useState(()=> JSON.parse( localStorage.getItem('gastos')) || []);
 
+  // LOCALSTORAGE
   useEffect( ()=> {
     console.log('Guardando presupuesto');
     localStorage.setItem('presupuesto', JSON.stringify(presupuesto));
