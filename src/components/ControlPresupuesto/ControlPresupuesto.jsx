@@ -1,34 +1,45 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 function ControlPresupuesto({presupuesto, gastos}) {
 
-    const formatearPresupuesto = cantidad => {
-        // API de react que te formatea numeros
-        return cantidad.toLocaleString('en-US', {
-            style: 'currency',
-            currency: 'USD'
-        });
-    }
+  const [disponible, setDisponible] = useState(0);
+  const [gastado, setGastado] = useState(0);
 
-    return (
-      <div className="contenedor-presupuesto contenedor sombra dos-columnas">
-        <div>
-          <p>Grafica Aqui</p>
-        </div>
 
-        <div className="contenido-presupuesto">
-          <p>
-            <span>Presupuesto:</span> {formatearPresupuesto(presupuesto)}
-          </p>
-          <p>
-            <span>Disponible:</span> {formatearPresupuesto(0)}
-          </p>
-          <p>
-            <span>Presupuesto:</span> {formatearPresupuesto(0)}
-          </p>
-        </div>
+  useEffect(()=> {
+      const totalGastos =  gastos.reduce( (total, gasto) => total + gasto.cantidad , 0)
+      
+      setGastado(totalGastos);
+      setDisponible(presupuesto - totalGastos);
+  }, [gastos]);
+
+  const formatearPresupuesto = cantidad => {
+      // API de react que te formatea numeros
+      return cantidad.toLocaleString('en-US', {
+          style: 'currency',
+          currency: 'USD'
+      });
+  }
+
+  return (
+    <div className="contenedor-presupuesto contenedor sombra dos-columnas">
+      <div>
+        <p>Grafica Aqui</p>
       </div>
-    );
+
+      <div className="contenido-presupuesto">
+        {/* <p>
+          <span>Presupuesto:</span> {formatearPresupuesto(presupuesto)}
+        </p> */}
+        <p>
+          <span>Disponible:</span> {formatearPresupuesto(disponible)}
+        </p>
+        <p>
+          <span>Gastado:</span> {formatearPresupuesto(gastado)}
+        </p>
+      </div>
+    </div>
+  );
 }
 
 export default ControlPresupuesto;
