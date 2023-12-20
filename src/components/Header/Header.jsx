@@ -8,13 +8,18 @@ function Header({
   isValidPresupuesto,
   setIsValidPresupuesto,
   gastos,
+  resetearApp,
 }) {
   return (
     <header>
       <h1>Planificador de gastos</h1>
 
       {isValidPresupuesto ? (
-        <ControlPresupuesto presupuesto={presupuesto} gastos={gastos}/>
+        <ControlPresupuesto
+          presupuesto={presupuesto}
+          gastos={gastos}
+          resetearApp={resetearApp}
+        />
       ) : (
         <NuevoPresupuesto
           presupuesto={presupuesto}

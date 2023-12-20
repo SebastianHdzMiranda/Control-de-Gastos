@@ -6,15 +6,15 @@
     --gris-oscuro: #64748b;
     --negro: #000;
 }
+html {
+    font-size: 62.5%;
+    box-sizing: border-box;
+}
 
 body {
     font-size: 1.6rem;
     font-family: "Lato", sans-serif;
     background-color: var(--gris-claro);
-}
-html {
-    font-size: 62.5%;
-    box-sizing: border-box;
 }
 *,
 *:before,
@@ -216,11 +216,15 @@ header h1 {
 }
 .contenido-presupuesto p.negativo,
 .contenido-presupuesto p.negativo span {
-    color: red;
+    color: #DC2626;
 }
+
 .contenido-presupuesto span {
     font-weight: 900;
     color: var(--azul);
+}
+.contenido-presupuesto .mensaje-help {
+    font-size: 1.5rem;
 }
 .reset-app {
     border: none;
@@ -244,10 +248,12 @@ main {
     padding-top: 10rem;
 }
 
-.filtros .campo {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
+@media (min-width: 768px) {
+    .filtros .campo {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+    }   
 }
 .filtros label {
     font-size: 3rem;
@@ -261,6 +267,13 @@ main {
     border-radius: 1rem;
     text-align: center;
     background-color: var(--gris-claro);
+    width: 100%;
+    margin-top: 1.5rem;
+}
+@media (min-width: 768px) {
+    .filtros select {
+        margin-top: unset;
+    }  
 }
 
 .listado-gastos {
@@ -440,4 +453,15 @@ body .modal {
     align-items: center;
     font-size: 2.4rem;
     text-align: right;
+}
+div:where(.swal2-container), div:where(.swal2-popup) {
+    width: unset !important;
+    padding: 2rem !important;
+}
+.swal2-title {
+    font-size: 2.8rem !important;
+}
+
+.swal2-confirm, .swal2-cancel, .swal2-html-container {
+    font-size: 1.8rem !important;
 }

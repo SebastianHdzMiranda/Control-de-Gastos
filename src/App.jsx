@@ -3,13 +3,14 @@ import Header from "./components/Header/Header";
 import IconoNuevoGasto from "./img/nuevo-gasto.svg";
 import Modal from "./components/Modal/Modal";
 import ListadoGastos from "./components/ListadoGastos/ListadoGastos";
+import Filtros from "./components/Filtros/Filtros";
 
 function App() {
 
   /* STATES
   ------------------------------------------------------- */
-  const [presupuesto, setPresupuesto] = useState( ()=> JSON.parse( localStorage.getItem('presupuesto')) || 0);
-  const [isValidPresupuesto, setIsValidPresupuesto] = useState(()=> JSON.parse( localStorage.getItem('presupuestoValido')) || false);
+  const [presupuesto, setPresupuesto] = useState( ()=> Number(localStorage.getItem('presupuesto')) || 0);
+  const [isValidPresupuesto, setIsValidPresupuesto] = useState(false);
 
   const [modal, setModal] = useState(false);
   const [animarModal, setAnimarModal] = useState(false);
@@ -17,16 +18,17 @@ function App() {
   const [gastos, setGastos] = useState(()=> JSON.parse( localStorage.getItem('gastos')) || []);
 
   const [gastoEditar, setGastoEditar]  = useState({});
+  const [filtro, setFiltro] = useState('');
 
   /* LOCALSTORAGE 
   ------------------------------------------------------- */ 
   useEffect( ()=> {
-    localStorage.setItem('presupuesto', JSON.stringify(presupuesto));
+    localStorage.setItem('presupuesto', presupuesto);
   }, [presupuesto]);
 
   useEffect( ()=> {
-    localStorage.setItem('presupuestoValido', JSON.stringify(isValidPresupuesto));
-  }, [isValidPresupuesto]);
+    presupuesto > 0 && setIsValidPresupuesto(true);
+  }, []);
 
   useEffect( ()=> {
     localStorage.setItem('gastos', JSON.stringify(gastos));
@@ -70,6 +72,12 @@ function App() {
     setGastos(gastosAct);
   }
 
+  const resetearApp = ()=> {
+    setGastos([]);
+    setIsValidPresupuesto(false);
+    setPresupuesto(0);
+  }
+
   return (
     <div className={modal ? "fijar" : ""}>
       <Header
@@ -78,12 +86,16 @@ function App() {
         isValidPresupuesto={isValidPresupuesto}
         setIsValidPresupuesto={setIsValidPresupuesto}
         gastos={gastos}
+        resetearApp={resetearApp}
       />
+
+      
       {isValidPresupuesto && (
         <>
           <main>
+            {gastos.length > 0 && <Filtros filtro={filtro} setFiltro={setFiltro}/>}
             <ListadoGastos
-              gastos={gastos}
+              gastos={ filtro ? gastos.filter( gasto => gasto.categoria === filtro ) : gastos }
               setGastoEditar={setGastoEditar}
               eliminarGasto={eliminarGasto}
             />
